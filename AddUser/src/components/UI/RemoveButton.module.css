@@ -1,0 +1,40 @@
+.button {
+     
+  overflow: hidden;
+  position: relative;
+  border: none;
+  padding: 0;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: transparent;
+  color: #7128a5;
+  font: inherit;
+  text-indent: 100%;
+  cursor: pointer;
+    }
+    
+    .button:hover{
+      color: red;
+      background: rgba(249, 4, 4, 0.1);
+    }
+   
+    .button:focus {
+      outline: solid 0 transparent;
+      
+    }
+
+    .button:before, .button:after {
+      position: absolute;
+      top: 15%;
+      left: calc(50% - .0625em);
+      width: 0.125em;
+      height: 70%;
+      border-radius: 0.125em;
+      transform: rotate(45deg);
+      background: currentcolor;
+      content: "";
+    }
+    .button:after {
+      transform: rotate(-45deg);
+    }
