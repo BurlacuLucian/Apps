@@ -62,6 +62,37 @@ const cartReducer = (state, action) => {
 
   }
 
+  if (action.type === "REMOVE_ITEMS") {
+    const { id, quantity } = action.payload;
+    const existingItem = state.items.find((item) => item.id === id);
+
+    if (existingItem) {
+      if (quantity >= existingItem.amount) {
+        return {
+          ...state,
+          items: state.items.filter((item) => item.id !== id),
+          totalAmount: state.totalAmount - existingItem.price * existingItem.amount,
+        };
+      } else {
+        const updatedItems = state.items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              amount: item.amount - quantity,
+            };
+          }
+          return item;
+        });
+        return {
+          ...state,
+          items: updatedItems,
+          totalAmount: state.totalAmount - existingItem.price * quantity,
+        };
+      }
+    }
+  }
+
+
   return defaultCartState;
 };
 
@@ -79,11 +110,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
 
+  const removeItemsFromCart = (id, quantity = 1) => {
+    dispatchCartAction({ type: "REMOVE_ITEMS", payload: { id, quantity } });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    removeItems: removeItemsFromCart,
   };
 
   return (
