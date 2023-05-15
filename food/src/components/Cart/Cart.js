@@ -19,6 +19,13 @@ const Cart = (props) => {
     cartCtx.addItem({...item, amount: 1});
   };
 
+  const clearCartHandler = () => {
+    cartCtx.items.forEach((item) => {
+      cartCtx.removeItems(item.id, item.amount);
+    });
+    props.onClose();
+  };
+
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {" "}
@@ -43,6 +50,7 @@ const Cart = (props) => {
         <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
+        {hasItems && <button className={classes["button--clear"]} onClick={clearCartHandler}>Clear Cart</button>}
         <button className={classes["button--alt"]} onClick={props.onClose}>
           Close
         </button>
